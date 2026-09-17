@@ -64,8 +64,16 @@ fn main() {
     audio_device.resume();
 
     //load the game
-    let bytes: Vec<u8> = std::fs::read("cyo.nes").unwrap();
+    // let bytes: Vec<u8> = std::fs::read("cyo.nes").unwrap();
     // let bytes: Vec<u8> = std::fs::read("pacman.nes").unwrap();
+    let rom_path = std::env::args()
+        .nth(1)
+        .expect("Usage: cargo run --release -- <game.nes>");
+
+    println!("Loading ROM: {}", rom_path);
+
+    let bytes: Vec<u8> = std::fs::read(&rom_path)
+        .expect("Could not read ROM file");
     let rom = Rom::new(&bytes).unwrap();
 
     let mut frame = Frame::new();
